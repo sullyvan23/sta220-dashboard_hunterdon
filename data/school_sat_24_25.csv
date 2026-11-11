@@ -1,4 +1,4 @@
-﻿CountyCode,CountyName,DistrictCode,DistrictName,SchoolCode,SchoolName,SchoolYear,Test,Subject,AverageScore_School,AverageScore_District,AverageScore_State
+﻿countycode,countyname,districtcode,districtname,schoolcode,schoolname,schoolyear,test,subject,averagescore_school,averagescore_district,averagescore_state
 01,Atlantic,0110,Atlantic City School District,010,Atlantic City High School,2024-25,ACT,English,Enrollment was less than 10 students.,Enrollment was less than 10 students.,24
 01,Atlantic,0110,Atlantic City School District,010,Atlantic City High School,2024-25,ACT,Math,Enrollment was less than 10 students.,Enrollment was less than 10 students.,24
 01,Atlantic,0110,Atlantic City School District,010,Atlantic City High School,2024-25,ACT,Reading,Enrollment was less than 10 students.,Enrollment was less than 10 students.,25
@@ -3608,6 +3608,3 @@
 80,Hudson,8060,University Academy Charter High School,990,University Academy Charter High School,2024-25,SAT,Math,436,436,519
 80,Hudson,8060,University Academy Charter High School,990,University Academy Charter High School,2024-25,SAT,Reading and Writing,446,446,533
 end of worksheet,,,,,,,,,,,
-,,,,,,,,,,,
-,,,,,,,,,,,
-,,,,,,,,,,,

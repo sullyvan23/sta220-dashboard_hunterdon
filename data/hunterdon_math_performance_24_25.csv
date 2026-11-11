@@ -1,4 +1,4 @@
-﻿CountyCode,CountyName,DistrictCode,DistrictName,SchoolCode,SchoolName,SchoolYear,StudentGroup,ValidScores_School,ParticipationRate_School,MetExceededExpectations_School,FederalProficiencyRate_School
+﻿countycode,countyname,districtcode,districtname,schoolcode,schoolname,schoolyear,studentgroup,validscores_school,participationrate_school,metexceededexpectations_school,federalproficiencyrate_school
 19,Hunterdon,20,Alexandria Township School District,5,Alexandria Township School,2021-22,All Students,266,98.50%,40.60%,40.60%
 19,Hunterdon,20,Alexandria Township School District,5,Alexandria Township School,2021-22,American Indian or Alaska Native,Fewer than 10 valid scores,Fewer than 10 valid scores,Fewer than 10 valid scores,Fewer than 10 valid scores
 19,Hunterdon,20,Alexandria Township School District,5,Alexandria Township School,2021-22,"Asian, Native Hawaiian, or Pacific Islander",Fewer than 10 valid scores,Fewer than 10 valid scores,Fewer than 10 valid scores,Fewer than 10 valid scores

@@ -1,4 +1,4 @@
-﻿CountyCode,CountyName,DistrictCode,DistrictName,SchoolCode,SchoolName,SchoolYear,Violence,Weapons,Vandalism,Substances,HIB,TotalUniqueIncidents,IncidentsPer100Students
+﻿countycode,countyname,districtcode,districtname,schoolcode,schoolname,schoolyear,violence,weapons,vandalism,substances,hib,totaluniqueincidents,incidentsper100students
 01,Atlantic,0010,Absecon Public Schools District,050,Emma C Attales,2024-25,1,0,0,0,4,5,1.26
 01,Atlantic,0010,Absecon Public Schools District,060,H Ashton Marsh,2024-25,0,0,0,0,1,1,0.19
 01,Atlantic,0110,Atlantic City School District,010,Atlantic City High School,2024-25,49,2,1,34,1,87,5.01
@@ -2508,6 +2508,3 @@
 80,Hudson,8060,University Academy Charter High School,990,University Academy Charter High School,2024-25,23,2,2,7,0,34,8.15
 80,Mercer,8140,The Village Charter School,990,The Village Charter School,2024-25,11,0,0,3,2,16,4.4
 end of worksheet,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
