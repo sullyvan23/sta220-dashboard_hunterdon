@@ -29,5 +29,7 @@ hunterdon_sat_24_25 <- read_csv("data/school_sat_24_25.csv") %>%
 
 hunterdon_school_feeding <- read_csv("data/hunterdon_school_feeding.csv")
 
+town_schools_by_grade <- read_csv("data/town_schools_by_grade.csv")
+
 
 
