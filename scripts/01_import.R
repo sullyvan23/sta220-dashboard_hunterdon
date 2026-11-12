@@ -27,5 +27,7 @@ hunterdon_sat_24_25 <- read_csv("data/school_sat_24_25.csv") %>%
                     filter(countyname == "Hunterdon",
                            schoolyear == "2024-25")
 
+hunterdon_school_feeding <- read_csv("data/hunterdon_school_feeding.csv")
+
 
 
