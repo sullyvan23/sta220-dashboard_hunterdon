@@ -31,4 +31,14 @@ by_grade_join <- function(data_joining, variable) {
 }
 
 
-new_dataset <- by_grade_join(hunterdon_incidents_24_25, incidentsper100students)
+incidents_by_grade <- by_grade_join(hunterdon_incidents_24_25, incidentsper100students)
+
+
+incidents_geom <- hunterdon_towns_geom %>%
+                  left_join(incidents_by_grade %>% select(GEOID, kindergarten:twelfth),
+                            join_by(GEOID))
+going_into_grade <- 0
+
+
+
+
