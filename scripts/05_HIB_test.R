@@ -10,7 +10,6 @@ by_grade_join <- function(data_joining, variable) {
                               names_to = "grade",
                               values_to = "schoolname")
   
-  
   new_dataset$schoolname <- gsub("\u00A0", " ", new_dataset$schoolname)
   new_dataset$schoolname <- gsub(" District", "", new_dataset$schoolname)
   
@@ -30,11 +29,14 @@ by_grade_join <- function(data_joining, variable) {
   return(new_dataset)
 }
 
+################################################################################################################
+
 ### getting incidents per 100 students for every grade in every town (school they go to)
 incidents_by_grade <- by_grade_join(hunterdon_incidents_24_25, incidentsper100students)
 
 ### changing GIOID to character, must've made it a number during editing in excel
 incidents_by_grade$GEOID <- as.character(incidents_by_grade$GEOID)
+
 
 ### get different number depending on grade going into (0-12, columns 5-17)
 going_into_grade <- 0

@@ -21,3 +21,22 @@ pupcst_24_25 <- pupcst_24_25 %>% mutate(line_desc = gsub(" ", "_", tolower(line_
 ### filtering to only Hunterdon County districts
 hunterdon_pupcst_24_25 <- pupcst_24_25 %>% filter(county_name == "Hunterdon")
 
+
+
+### getting a numeric students per teachers instead of "#:01"
+### using this method works for no more than 100 students per teacher, which was all schools in Hunterdon
+hunterdon_ratios_24_25 <- hunterdon_ratios_24_25 %>%
+                mutate(students_per_teacher = substr(student_teacher_school, 1, 2),
+                       students_per_teacher = as.numeric(gsub(":", "", students_per_teacher)))
+
+
+### uisng only all students, not by any subgroups
+hunterdon_ela_performance_24_25 <- hunterdon_ela_performance_24_25 %>%
+              filter(studentgroup == "All Students")
+hunterdon_math_performance_24_25 <- hunterdon_math_performance_24_25 %>%
+              filter(studentgroup == "All Students")  
+
+
+### changing GIOID to character, must've made it a number during editing in excel
+town_schools_by_grade$GEOID <- as.character(town_schools_by_grade$GEOID)
+
