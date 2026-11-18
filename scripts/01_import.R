@@ -26,12 +26,16 @@ hunterdon_ratios_24_25 <- read_csv("data/school_ratios_24_25.csv") %>%
 hunterdon_sat_24_25 <- read_csv("data/school_sat_24_25.csv") %>%
                     filter(countyname == "Hunterdon",
                            schoolyear == "2024-25")
-hunterdon_teacher_edu_24_25 <- read_csv("data/hunterdon_teacher_edu_24_25.csv")
-hunterdon_teacher_exp_24_25 <- read_csv("data/hunterdon_teacher_exp_24_25.csv")
+### had a lot of NAs at bottom
+hunterdon_teacher_edu_24_25 <- read_csv("data/hunterdon_teacher_edu_24_25.csv") %>%
+                               filter(!is.na(schoolcode))
+hunterdon_teacher_exp_24_25 <- read_csv("data/hunterdon_teacher_exp_24_25.csv") %>%
+                               filter(!is.na(schoolcode))
 hunterdon_enrollment_24_25 <- read_csv("data/enrollment_24_25.csv") %>%
                               filter(countyname == "Hunterdon", 
                                      schoolyear == "2024-25")
-hunterdon_school_expenditures_24_25 <- read_csv("data/hunterdon_school_expenditures_24_25.csv")
+hunterdon_school_expenditures_24_25 <- read_csv("data/hunterdon_school_expenditures_24_25.csv") %>%
+                                      filter(!is.na(county_id))
 
 
 hunterdon_school_feeding <- read_csv("data/hunterdon_school_feeding.csv")

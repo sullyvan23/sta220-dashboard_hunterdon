@@ -46,10 +46,45 @@ hunterdon_math_performance_24_25 <- hunterdon_math_performance_24_25 %>%
 town_schools_by_grade$GEOID <- as.character(town_schools_by_grade$GEOID)
 
 
-### making hunterdon students per teacher
-hunterdon_stud_per_teach <- hunterdon_teacher_exp_24_25 %>%
-                            select(schoolcode:teachercount_school) %>%
-                            left_join(hunterdon_enrollment_24_25 %>%
-                                          select(schoolcode, total),
-                                      join_by(schoolcode))
+### making Hunterdon students per teacher
+hunterdon_stud_per_teach_24_25 <- hunterdon_teacher_exp_24_25 %>%
+                                select(schoolname:teachercount_school) %>%
+                                left_join(hunterdon_enrollment_24_25 %>%
+                                              select(schoolname, total),
+                                          join_by(schoolname)) %>%
+                                mutate(stud_per_teach = total / teachercount_school)
 
+
+### issue with \n instead of space
+hunterdon_school_expenditures_24_25 <- hunterdon_school_expenditures_24_25 %>%
+                          mutate(schoolname = gsub("\n", " ", schoolname))
+
+### making per pupil costs a number, making numeric and NAs 0
+hunterdon_school_expenditures_24_25 <- hunterdon_school_expenditures_24_25 %>%
+                        filter(!schoolname %in% c("District Level Total Expenditures")) %>%
+                        mutate(across(federal_per_pupcst:total_per_pupcst, ~
+                                        as.numeric(
+                                          gsub("\\$", "", 
+                                                      gsub(",", "", .x)) ) )) %>%
+                        mutate(across(federal_per_pupcst:total_per_pupcst, ~
+                                        replace_na(.x, 0)))
+
+### adding districts central office numbers to all schools
+hunterdon_school_expenditures_24_25 <- hunterdon_school_expenditures_24_25 %>%
+                        group_by(district_id) %>%
+                        mutate(across(federal_per_pupcst:total_per_pupcst, ~
+                                      .x + .x[schoolname == "District-Central Office"])) %>%
+                        ungroup() %>%
+                        filter(schoolname != "District-Central Office")
+
+
+### making teacher education actually numeric
+hunterdon_teacher_edu_24_25 <- hunterdon_teacher_edu_24_25 %>%
+                               filter(`teachers/admins` == "Teachers") %>% 
+                              mutate(across(bachelors:doctoral, ~
+                                              as.numeric(gsub("%", "", .x))),
+                                     degree = bachelors + masters + doctoral,
+                                     advanced_degree = masters + doctoral)
+
+
+  

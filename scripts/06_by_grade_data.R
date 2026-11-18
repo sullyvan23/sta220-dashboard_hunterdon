@@ -42,13 +42,24 @@ by_grade_join <- function(data_joining, variable) {
 incidents_by_grade <- by_grade_join(hunterdon_incidents_24_25, incidentsper100students)
 ### no Patrick McGaheran for ELA and math
 ela_perf_by_grade <- by_grade_join(hunterdon_ela_performance_24_25, federalproficiencyrate_school)
-math_perf_by_grade <- by_grade_join(hunterdon_ela_performance_24_25, federalproficiencyrate_school)
-st_ratio_by_grade <- by_grade_join(hunterdon_ratios_24_25, students_per_teacher)
+math_perf_by_grade <- by_grade_join(hunterdon_math_performance_24_25, federalproficiencyrate_school)
+st_ratio_by_grade <- by_grade_join(hunterdon_stud_per_teach_24_25, stud_per_teach)
+per_pup_cst_by_grade <- by_grade_join(hunterdon_school_expenditures_24_25, total_per_pupcst)
+teach_exp_by_grade <- by_grade_join(hunterdon_teacher_exp_24_25, teacheravgyearsexp_school)
+teach_adv_degree_by_grade <- by_grade_join(hunterdon_teacher_edu_24_25, advanced_degree)
 
 
+write.csv(incidents_by_grade, "app/data/incidents_by_grade.csv", row.names = FALSE)
+write.csv(ela_perf_by_grade, "app/data/ela_perf_by_grade.csv", row.names = FALSE)
+write.csv(math_perf_by_grade, "app/data/math_perf_by_grade.csv", row.names = FALSE)
+write.csv(st_ratio_by_grade, "app/data/st_ratio_by_grade.csv", row.names = FALSE)
+write.csv(per_pup_cst_by_grade, "app/data/per_pup_cst_by_grade.csv", row.names = FALSE)
+write.csv(teach_exp_by_grade, "app/data/teach_exp_by_grade.csv", row.names = FALSE)
+write.csv(teach_adv_degree_by_grade, "app/data/teach_adv_degree_by_grade.csv", row.names = FALSE)
 
+saveRDS(hunterdon_towns_geom, "app/data/hunterdon_towns_geom.rds")
 
-
+################################################################################################################
 
 ### get different number depending on grade going into (0-12, columns 5-17)
 going_into_grade <- 0
@@ -69,24 +80,6 @@ ggplot(incidents_geom) +
   scale_fill_gradient2(low = "green", mid = "white", high = "red",
                        midpoint = mean(incidents_geom$avg_incidents_per100)) +
   theme_minimal()
-
-################################################################################################################
-
-### getting incidents per 100 students for every grade in every town (school they go to)
-
-
-### get different number depending on grade going into (0-12, columns 5-17)
-going_into_grade <- 0
-
-### creating column of average based on grade going into
-ela_perf_by_grade$avg_incidents_per100 <- 
-  rowMeans(ela_perf_by_grade[,(5+going_into_grade):17], na.rm = TRUE)
-
-
-### join to town geometry dataset
-ela_perf_geom <- hunterdon_towns_geom %>%
-  left_join(ela_perf_by_grade %>% select(GEOID, federalproficiencyrate_school),
-            join_by(GEOID))
 
 ################################################################################################################
 
