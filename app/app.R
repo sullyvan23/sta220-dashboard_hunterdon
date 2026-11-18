@@ -98,11 +98,11 @@ server <- function(input, output) {
     if(input$metric %in% c("Incidents", "Student-Teacher Ratio")) {
       plot <- plot +
           scale_fill_gradient2(low = "green", mid = "white", high = "red",
-                             midpoint = mean(metric_geom$avg_used, na.rm = TRUE))
+                             midpoint = median(metric_geom$avg_used, na.rm = TRUE))
     } else {
       plot <- plot +
         scale_fill_gradient2(low = "red", mid = "white", high = "green",
-                             midpoint = mean(metric_geom$avg_used, na.rm = TRUE))
+                             midpoint = median(metric_geom$avg_used, na.rm = TRUE))
     }
     
     
