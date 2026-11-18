@@ -45,3 +45,11 @@ hunterdon_math_performance_24_25 <- hunterdon_math_performance_24_25 %>%
 ### changing GIOID to character, must've made it a number during editing in excel
 town_schools_by_grade$GEOID <- as.character(town_schools_by_grade$GEOID)
 
+
+### making hunterdon students per teacher
+hunterdon_stud_per_teach <- hunterdon_teacher_exp_24_25 %>%
+                            select(schoolcode:teachercount_school) %>%
+                            left_join(hunterdon_enrollment_24_25 %>%
+                                          select(schoolcode, total),
+                                      join_by(schoolcode))
+

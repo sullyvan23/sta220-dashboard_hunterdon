@@ -43,9 +43,11 @@ incidents_by_grade <- by_grade_join(hunterdon_incidents_24_25, incidentsper100st
 ### no Patrick McGaheran for ELA and math
 ela_perf_by_grade <- by_grade_join(hunterdon_ela_performance_24_25, federalproficiencyrate_school)
 math_perf_by_grade <- by_grade_join(hunterdon_ela_performance_24_25, federalproficiencyrate_school)
+st_ratio_by_grade <- by_grade_join(hunterdon_ratios_24_25, students_per_teacher)
 
-### changing GIOID to character, must've made it a number during editing in excel
-incidents_by_grade$GEOID <- as.character(incidents_by_grade$GEOID)
+
+
+
 
 
 ### get different number depending on grade going into (0-12, columns 5-17)
