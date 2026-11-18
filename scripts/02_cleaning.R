@@ -30,11 +30,16 @@ hunterdon_ratios_24_25 <- hunterdon_ratios_24_25 %>%
                        students_per_teacher = as.numeric(gsub(":", "", students_per_teacher)))
 
 
-### uisng only all students, not by any subgroups
+### uisng only all students, not by any subgroups, and making columns numeric
 hunterdon_ela_performance_24_25 <- hunterdon_ela_performance_24_25 %>%
-              filter(studentgroup == "All Students")
+              filter(studentgroup == "All Students") %>% 
+              mutate(across(participationrate_school:federalproficiencyrate_school, ~
+                            as.numeric(gsub("%", "", .x))))
+
 hunterdon_math_performance_24_25 <- hunterdon_math_performance_24_25 %>%
-              filter(studentgroup == "All Students")  
+              filter(studentgroup == "All Students") %>% 
+              mutate(across(participationrate_school:federalproficiencyrate_school, ~
+                              as.numeric(gsub("%", "", .x))))
 
 
 ### changing GIOID to character, must've made it a number during editing in excel
