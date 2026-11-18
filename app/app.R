@@ -90,11 +90,23 @@ server <- function(input, output) {
                 join_by(GEOID))
     
     ### have to be able to change if high or low is green depending on metric
-    ggplot(metric_geom) +
-      geom_sf(aes(fill = avg_used)) +
-      scale_fill_gradient2(low = "green", mid = "white", high = "red",
-                           midpoint = mean(metric_geom$avg_used, na.rm = TRUE)) +
-      theme_minimal()
+    plot <- ggplot(metric_geom) +
+            geom_sf(aes(fill = avg_used)) +
+            theme_minimal()
+    
+    ### changing if red->green or green->red
+    if(input$metric %in% c("Incidents", "Student-Teacher Ratio")) {
+      plot <- plot +
+          scale_fill_gradient2(low = "green", mid = "white", high = "red",
+                             midpoint = mean(metric_geom$avg_used, na.rm = TRUE))
+    } else {
+      plot <- plot +
+        scale_fill_gradient2(low = "red", mid = "white", high = "green",
+                             midpoint = mean(metric_geom$avg_used, na.rm = TRUE))
+    }
+    
+    
+    plot
     
   })
 
