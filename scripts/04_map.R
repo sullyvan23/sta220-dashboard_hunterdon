@@ -18,7 +18,16 @@ hunterdon_towns_geom <- county_subdivisions(state = "NJ",
 hunterdon_towns_geom <- hunterdon_towns_geom %>% 
                         filter(NAME != "Bloomsbury")
 
+### differentiating Clinton Town and Township
+hunterdon_towns_geom <- hunterdon_towns_geom %>%
+                        mutate(NAME = ifelse(NAMELSAD == "Clinton town",
+                                             "Clinton Town",
+                                             NAME),
+                               NAME = ifelse(NAMELSAD == "Clinton township",
+                                             "Clinton Twp",
+                                             NAME))
+
 ### plot check
 ggplot(hunterdon_towns_geom) +
   geom_sf() +
-  geom_sf_text(aes(label = NAMELSAD), size = 2)
+  geom_sf_text(aes(label = NAME), size = 2)
