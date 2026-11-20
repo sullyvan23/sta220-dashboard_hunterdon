@@ -156,7 +156,7 @@ server <- function(input, output) {
     }
     
     
-    ### adding needed titles and subtitles based on metric
+    ### adding needed titles, subtitles, and captions based on metric
     if(input$metric == "Incidents") {
       plot <- plot +
         labs(title = "2024-25 Incidents Reported Per 100 Students",
