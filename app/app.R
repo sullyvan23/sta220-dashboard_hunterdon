@@ -169,7 +169,7 @@ server <- function(input, output) {
              subtitle = "",
              caption = "SOURCE: NJ DOE (2024-25 School Performance Reports)
                         NOTE: No data available for Patrick McGaheran School (K-2nd for 
-                              Clinton Twp). Average taken without NAs.")
+                              Clinton Twp). Average taken removing NAs.")
       
     } else if(input$metric == "Math Testing Performance") {
       plot <- plot +
@@ -177,7 +177,7 @@ server <- function(input, output) {
              subtitle = "",
              caption = "SOURCE: NJ DOE (2024-25 School Performance Reports)
                         NOTE: No data available for Patrick McGaheran School (K-2nd for 
-                              Clinton Twp). Average taken without NAs.")
+                              Clinton Twp). Average taken removing NAs.")
       
     } else if(input$metric == "Student-Teacher Ratio") {
       plot <- plot +
