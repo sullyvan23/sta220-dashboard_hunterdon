@@ -4,7 +4,8 @@
 
 library(shiny)
 library(tidyverse)
-
+library(sf)
+library(ggrepel)
 
 # The Data ---------------------------------------------------------------------------------------
 
@@ -53,6 +54,7 @@ ui <- fluidPage(
   ### inputs, need the uiOutput part to get the dynamically created kids inputs
   selectInput(inputId = "metric", label = "Metric:", choices = names(metrics_choices)),
   selectInput(inputId = "kids", label = "# of Kids:", choices = 1:8),
+  selectInput(inputId = "label_town", label = "Label Towns?", choices = c("Yes", "No")),
   uiOutput("dynamic_kids_inputs"),
   
   
@@ -60,7 +62,11 @@ ui <- fluidPage(
   plotOutput(outputId = "fig_1"),
   p("This figure colors every town in Hunterdon County from red (bad) to green (good) based on
     the chosen metric. Average is taken by grade, based on what schools they will go to in 
-    each future grade in that town."),
+    each future grade in that town.\n
+    NOTE: Readington has two different elementary schools for grades K-3rd. Numbers provided are
+          an average of both schools.\n
+          Flemington/Raritan has four different elementary schools for grades K-4th. Numbers 
+          provided are an average of all four schools"),
 
   h3("Figure 2. title"),
   plotOutput(outputId = "fig_2"),
@@ -114,6 +120,7 @@ server <- function(input, output) {
     for(kid_n in 1:input$kids) {
       for(grade in 0:12) {
         
+        ### if grade >= the grade the kid is going into
         if( grade >= grades_choices[[ input[[paste0("kid_", kid_n, "_grade")]] ]] ) {
           kids_grades[grade+1] <- kids_grades[grade+1] + 1
         }
@@ -138,11 +145,21 @@ server <- function(input, output) {
       left_join(selected_data %>% select(GEOID, Average),
                 join_by(GEOID))
     
-    ### have to be able to change if high or low is green depending on metric
+    ### base plot
     plot <- ggplot(metric_geom) +
             geom_sf(aes(fill = Average)) +
-            geom_sf_text(aes(label = NAME), size = 3) +
             theme_void()
+    
+    
+    ### putting town labels if wanted
+    if(input$label_town == "Yes") {
+      plot <- plot +
+        geom_text_repel(aes(geometry = geometry, label = NAME),
+                        seed = 111, stat = "sf_coordinates",
+                        size = 3, fontface = "bold",
+                        box.padding = 0.025)
+    }
+    
     
     ### changing if red->green or green->red
     if(input$metric %in% c("Incidents", "Student-Teacher Ratio")) {
@@ -187,7 +204,7 @@ server <- function(input, output) {
       
     } else if(input$metric == "Per Pupil Expenditures") {
       plot <- plot +
-        labs(title = "2024-25 School Expenditures Per Student",
+        labs(title = "2024-25 School Expenditures (in $) Per Student",
              subtitle = "",
              caption = "SOURCE: NJ DOE (2024-25 School Performance Reports)")
       
