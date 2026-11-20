@@ -99,6 +99,10 @@ server <- function(input, output) {
     ### getting dataset to use
     selected_data <- metrics_choices[[input$metric]]
     
+    ### just to make sure key matches
+    selected_data$GEOID <- as.character(selected_data$GEOID)
+    hunterdon_towns_geom$GEOID <- as.character(hunterdon_towns_geom$GEOID)
+    
     ### start off with 0 kids going to go through each grade
     ### organized like this just to keep track of numbers (K, 1-5, 6-8, 9-12)
     kids_grades <- c(0,
@@ -128,9 +132,6 @@ server <- function(input, output) {
                         na.rm = TRUE) / 
       rowSums(sweep(as.matrix(!is.na(selected_data %>% select(kindergarten:twelfth))),
                     2, kids_grades, "*"))
-    
-    ### just to make sure key matches
-    selected_data$GEOID <- as.character(selected_data$GEOID)
                                
     ### joining to geom dataset
     metric_geom <- hunterdon_towns_geom %>%
@@ -159,37 +160,48 @@ server <- function(input, output) {
     if(input$metric == "Incidents") {
       plot <- plot +
         labs(title = "2024-25 Incidents Reported Per 100 Students",
-             subtitle = "Violence, Weapons, Vandalism, Substances, or Bullying")
+             subtitle = "Incidents of Violence, Weapons, Vandalism, Substances, or Bullying",
+             caption = "SOURCE: NJ DOE (2024-25 School Performance Reports)")
       
     } else if(input$metric == "ELA Testing Performance") {
       plot <- plot +
         labs(title = "2024-25 Percent of Students Meeting Federal ELA Proficiency Standards",
-             subtitle = "")
+             subtitle = "",
+             caption = "SOURCE: NJ DOE (2024-25 School Performance Reports)
+                        NOTE: No data available for Patrick McGaheran School (K-2nd for 
+                              Clinton Twp). Average taken without NAs.")
       
     } else if(input$metric == "Math Testing Performance") {
       plot <- plot +
         labs(title = "2024-25 Percent of Students Meeting Federal Math Proficiency Standards",
-             subtitle = "")
+             subtitle = "",
+             caption = "SOURCE: NJ DOE (2024-25 School Performance Reports)
+                        NOTE: No data available for Patrick McGaheran School (K-2nd for 
+                              Clinton Twp). Average taken without NAs.")
       
     } else if(input$metric == "Student-Teacher Ratio") {
       plot <- plot +
         labs(title = "2024-25 Students Per 1 Teacher",
-             subtitle = "")
+             subtitle = "",
+             caption = "SOURCE: NJ DOE (2024-25 School Performance Reports)")
       
     } else if(input$metric == "Per Pupil Expenditures") {
       plot <- plot +
         labs(title = "2024-25 School Expenditures Per Student",
-             subtitle = "")
+             subtitle = "",
+             caption = "SOURCE: NJ DOE (2024-25 School Performance Reports)")
       
     } else if(input$metric == "Avg Teacher Experience") {
       plot <- plot +
         labs(title = "2024-25 Average Years of Experience for Teachers",
-             subtitle = "")
+             subtitle = "",
+             caption = "SOURCE: NJ DOE (2024-25 School Performance Reports)")
       
     } else if(input$metric == "Teacher Advanced Degree %") {
       plot <- plot +
         labs(title = "2024-25 Percent of Teachers with a Masters or Better Degree",
-             subtitle = "")
+             subtitle = "",
+             caption = "SOURCE: NJ DOE (2024-25 School Performance Reports)")
       
     } 
     
@@ -201,7 +213,27 @@ server <- function(input, output) {
   
   output$fig_2 <- renderPlot({
 
+    ### getting dataset to use
+    selected_data <- metrics_choices[[input$metric]]
     
+    ### just to make sure key matches
+    selected_data$GEOID <- as.character(selected_data$GEOID)
+    hunterdon_towns_geom$GEOID <- as.character(hunterdon_towns_geom$GEOID)
+    
+    ### joining to geom dataset
+    metric_geom <- hunterdon_towns_geom %>%
+      left_join(selected_data %>% select(GEOID, third),
+                join_by(GEOID))
+    
+    ### have to be able to change if high or low is green depending on metric
+    plot <- ggplot(metric_geom) +
+      geom_sf(aes(fill = third)) +
+      geom_sf_text(aes(label = NAME), size = 3) +
+      scale_fill_gradient2(low = "green", mid = "white", high = "red",
+                           midpoint = median(metric_geom$third, na.rm = TRUE)) +
+      theme_void()
+    
+    plot
 
   })
 

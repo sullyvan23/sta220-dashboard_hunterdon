@@ -1,5 +1,10 @@
-install.packages("sf")
-install.packages("tigris")
+
+if(!require("sf")) {
+  install.packages("sf")
+}
+if(!require("tigris")) {
+  install.packages("tigris")
+}
 
 library(sf)
 library(tigris)

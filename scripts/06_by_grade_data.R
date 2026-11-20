@@ -1,5 +1,5 @@
 
-### removing weird character in a lot of the names
+### removing weird character in a lot of the names, nd making GEOID character
 town_schools_by_grade <- town_schools_by_grade %>% 
               mutate(across(kindergarten:twelfth, ~ gsub("\u00A0", " ", .x)))
 
