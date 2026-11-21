@@ -60,20 +60,22 @@ ui <- fluidPage(
   
   h3("Figure 1. Individual Metrics by Town and Grade"),
   plotOutput(outputId = "fig_1"),
-  p("This figure colors every town in Hunterdon County from red (bad) to green (good) based on
+  p(HTML("This figure colors every town in Hunterdon County from red (bad) to green (good) based on
     the chosen metric. Average is taken by grade, based on what schools they will go to in 
-    each future grade in that town.\n
+    each future grade in that town.<br>
     NOTE: Readington has two different elementary schools for grades K-3rd. Numbers provided are
-          an average of both schools.\n
+          an average of both schools.<br>
           Flemington/Raritan has four different elementary schools for grades K-4th. Numbers 
-          provided are an average of all four schools"),
+          provided are an average of all four schools")),
 
-  h3("Figure 2. title"),
+  h3("Figure 2. "),
   plotOutput(outputId = "fig_2"),
-  p("a sentence or two saying what the figure shows."),
+  p(""),
 
   h3("What this dashboard cannot tell you"),
-  p("the limits of your data.")
+  p("This data is limited to school data (and potentially more like crime and safety). This data
+    should be used supplementary to other factors involved in deciding where to live such as 
+    cost of living, proximity to work, etc.")
 
 )
 
@@ -230,27 +232,7 @@ server <- function(input, output) {
   
   output$fig_2 <- renderPlot({
 
-    ### getting dataset to use
-    selected_data <- metrics_choices[[input$metric]]
     
-    ### just to make sure key matches
-    selected_data$GEOID <- as.character(selected_data$GEOID)
-    hunterdon_towns_geom$GEOID <- as.character(hunterdon_towns_geom$GEOID)
-    
-    ### joining to geom dataset
-    metric_geom <- hunterdon_towns_geom %>%
-      left_join(selected_data %>% select(GEOID, third),
-                join_by(GEOID))
-    
-    ### have to be able to change if high or low is green depending on metric
-    plot <- ggplot(metric_geom) +
-      geom_sf(aes(fill = third)) +
-      geom_sf_text(aes(label = NAME), size = 3) +
-      scale_fill_gradient2(low = "green", mid = "white", high = "red",
-                           midpoint = median(metric_geom$third, na.rm = TRUE)) +
-      theme_void()
-    
-    plot
 
   })
 
