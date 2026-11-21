@@ -52,10 +52,19 @@ ui <- fluidPage(
   p("The decision: Find the best towns in Hunterdon for your child to grow up in"),
 
   ### inputs, need the uiOutput part to get the dynamically created kids inputs
-  selectInput(inputId = "metric", label = "Metric:", choices = names(metrics_choices)),
-  selectInput(inputId = "kids", label = "# of Kids:", choices = 1:8),
-  selectInput(inputId = "label_town", label = "Label Towns?", choices = c("Yes", "No")),
-  uiOutput("dynamic_kids_inputs"),
+  ### having them lineup horizontally, 4 wide, 12 wide screen
+  fluidRow(
+    column(4,
+           selectInput(inputId = "metric", label = "Metric:", choices = names(metrics_choices))),
+    column(4,
+           selectInput(inputId = "kids", label = "# of Kids:", choices = 1:8)),
+    column(4,
+           selectInput(inputId = "label_town", label = "Label Towns?", choices = c("Yes", "No"))),
+  ),
+  
+  fluidRow(
+    uiOutput("dynamic_kids_inputs")
+  ),
   
   
   h3("Figure 1. Individual Metrics by Town and Grade"),
@@ -91,10 +100,12 @@ server <- function(input, output) {
     lapply(
       1:input$kids, function(i) {
       
-      ### ask what grade kid n is going into
-      selectInput(inputId = paste0("kid_", i, "_grade"),
-                  label = paste0("Kid ", i, " Going Into Grade:"),
-                  choices = names(grades_choices))
+      column(4,
+        ### ask what grade kid n is going into
+        selectInput(inputId = paste0("kid_", i, "_grade"),
+                    label = paste0("Kid ", i, " Going Into Grade:"),
+                    choices = names(grades_choices))
+      )
       
       }
     )
