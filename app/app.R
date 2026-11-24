@@ -68,14 +68,16 @@ ui <- fluidPage(
   
   
   h3("Figure 1. Individual Metrics by Town and Grade"),
-  plotOutput(outputId = "fig_1"),
-  p(HTML("This figure colors every town in Hunterdon County from red (bad) to green (good) based on
-    the chosen metric. Average is taken by grade, based on what schools they will go to in 
-    each future grade in that town.<br>
-    NOTE: Readington has two different elementary schools for grades K-3rd. Numbers provided are
-          an average of both schools.<br>
-          Flemington/Raritan has four different elementary schools for grades K-4th. Numbers 
-          provided are an average of all four schools")),
+  ### 75% of browser height
+  plotOutput(outputId = "fig_1", height = "75vh"),
+  p(HTML("<br>
+          This figure colors every town in Hunterdon County from red (bad) to green (good) based on
+          the chosen metric. Average is taken by grade, based on what schools they will go to in 
+          each future grade in that town.<br>
+          NOTE: Readington has two different elementary schools for grades K-3rd. Numbers provided are
+                an average of both schools.<br>
+                Flemington/Raritan has four different elementary schools for grades K-4th. Numbers 
+                provided are an average of all four schools")),
 
   h3("Figure 2. "),
   plotOutput(outputId = "fig_2"),
@@ -161,7 +163,10 @@ server <- function(input, output) {
     ### base plot
     plot <- ggplot(metric_geom) +
             geom_sf(aes(fill = Average)) +
-            theme_void()
+            theme_void() +
+            theme(plot.title = element_text(size = 20),
+                  plot.subtitle = element_text(size = 14),
+                  plot.caption = element_text(size = 12))
     
     
     ### putting town labels if wanted
@@ -169,7 +174,7 @@ server <- function(input, output) {
       plot <- plot +
         geom_text_repel(aes(geometry = geometry, label = NAME),
                         seed = 111, stat = "sf_coordinates",
-                        size = 3, fontface = "bold",
+                        size = 4, fontface = "bold",
                         box.padding = 0.025)
     }
     
